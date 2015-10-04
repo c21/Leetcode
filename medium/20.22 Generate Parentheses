@@ -1,0 +1,79 @@
+/*
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+"((()))", "(()())", "(())()", "()(())", "()()()"
+*/
+
+#include <vector>
+#include <string>
+#include <iostream>
+using namespace std;
+
+class Solution 
+{
+
+	public:
+
+	vector<string> result[1000];
+
+    	vector<string> generateParenthesis(int n) 
+	{
+
+		for(int i = 0; i <= n; i++)
+		{
+			result[i] = vector<string>();
+			gen_str(i);	
+		}
+		return result[n];	
+    	}
+
+	void gen_str(int n)
+	{
+		if(n == 0)
+                {
+                        result[n].push_back("");
+                }       
+                else if(n == 1)
+                {
+                        result[n].push_back("()");
+                }
+                else
+                {
+			for(int i = 0; i < result[n-1].size(); i++)
+				result[n].push_back("("+result[n-1][i]+")");
+
+			for(int i = 0; i <= n-2; i++)
+			{
+				for(int j = 0; j < result[i].size(); j++)
+				{
+					for(int k = 0; k < result[n-1-i].size(); k++)
+					{
+						result[n].push_back("("+result[i][j]+")"+result[n-1-i][k]);
+					}
+				}
+			}		
+                }
+	}	
+};
+
+
+int main()
+{
+	Solution s;
+	int n;
+	while(cin >> n)
+	{
+		vector<string> r = s.generateParenthesis(n);
+		for(int i = 0; i < r.size(); i++)
+			cout << r[i] << endl;
+	}
+	return 0;
+} 
+
+
+/*
+  设s(n)为所有n位的括号，则
+  s(n)可以为(s(0))s(n-1),(s(1))s(n-2), ..., (s(n-1))s(0).
+*/
