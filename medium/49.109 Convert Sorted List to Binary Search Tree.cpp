@@ -41,7 +41,7 @@ class Solution
 
 	public:
 
-  TreeNode* sortedListToBST(ListNode* head) 
+  	TreeNode* sortedListToBST(ListNode* head) 
 	{
 		if(head == NULL)
 			return NULL;
@@ -78,7 +78,7 @@ class Solution
 			
 			return p;			
 		}		
-  }
+  	}
 
 };
 
