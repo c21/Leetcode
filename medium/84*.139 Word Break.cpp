@@ -8,15 +8,12 @@ dict = ["leet", "code"].
 Return true because "leetcode" can be segmented as "leet code".
 */
 
-class Solution 
-{
-
-	public:
-
-	bool wordBreak(string s, unordered_set<string>& wordDict) 
+class Solution {
+public:
+    	bool wordBreak(string s, unordered_set<string>& wordDict) 
 	{			
-
-		unordered_map<pair<int,int>, bool> my_map = unordered_map<pair<int,int>, bool>();	
+	
+		map<pair<int,int>, bool> my_map = map<pair<int,int>, bool>();	
 		if(s == "")
 		{
 			if(wordDict.find(s) == wordDict.end())
@@ -27,10 +24,10 @@ class Solution
 		else
 			return find(s, wordDict, 0, s.length()-1, my_map);	
 	}
-
-	bool find(string& s, unordered_set<string>& wordDict, int begin, int end, unordered_map<pair<int,int>, bool>& my_map)
+	
+	bool find(string& s, unordered_set<string>& wordDict, int begin, int end, map<pair<int,int>, bool>& my_map)
 	{
-		pair<int,int> p(begin, end);
+		pair<int,int> p = pair<int,int>(begin, end);
 		if(my_map.find(p) != my_map.end())
 			return my_map[p];
 		string sub_s = s.substr(begin, end-begin+1);
@@ -46,7 +43,7 @@ class Solution
 				sub_s = s.substr(begin, i-begin+1);
 				if(wordDict.find(sub_s) != wordDict.end())
 				{
-					if(find(s, wordDict, i+1, end))
+					if(find(s, wordDict, i+1, end, my_map))
 					{
 						my_map[p] = true;
 						return true;
@@ -57,7 +54,6 @@ class Solution
 			return false;
 		}	
 	}
-
 };
 
 /*
