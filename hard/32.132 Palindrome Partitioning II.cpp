@@ -9,15 +9,15 @@ Return 1 since the palindrome partitioning ["aa","b"] could be produced using 1 
 
 class Solution {
 public:
-    int minCut(string s) 
+    	int minCut(string s) 
 	{
 		if(s.length() == 0 || s.length() == 1)
 			return 0;
 		
 		vector<vector<bool> > p(s.length(), vector<bool>(s.length(),false));
 		vector<int> record(s.length(), -1);
-
-
+	
+	
 		// get all palindrome
 		for(int i = s.length()-1; i >= 0; i--)
 		{
@@ -31,7 +31,7 @@ public:
 					p[i][j] = (s[i] == s[j] && p[i+1][j-1]); 	
 			}
 		}		
-
+	
 		// get minimal cut
 		for(int i = s.length()-1; i >= 0; i--)
 		{
