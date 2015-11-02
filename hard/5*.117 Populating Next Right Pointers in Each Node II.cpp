@@ -89,3 +89,63 @@ class Solution
 /*
   没有使用常数空间，用广度优先搜索。
 */
+
+
+class Solution 
+{
+
+	public:
+
+	void connect(TreeLinkNode *root) 
+	{
+		if(root == NULL)
+			return root;
+		TreeLinkNode* p = root;
+		while(p != NULL)
+		{
+			p->next = NULL;
+			p = p->right;
+		}
+		p = root;
+		TreeLinkNode* first = NULL;
+		TreeLinkNode* last = NULL;
+		while(p != NULL)
+		{
+			if(first == NULL)
+			{
+				if(p->left != NULL)
+					first = p->left;
+				else if(p->right != NULL)
+					first = p->right;
+			}
+				
+			if(p->left != NULL)
+			{
+				if(last != NULL)
+					last->next = p->left;
+				last = p->left;
+			}	
+			if(p->right != NULL)
+			{
+				if(last != NULL)
+					last->next = p->right;
+				last = p->right;
+			}
+
+			p = p->next;
+			if(p == NULL)
+			{
+				p = first;
+				first = NULL;
+				last = NULL;	
+			}	
+		}		
+	}
+
+
+}
+
+/*
+	这里使用常数空间的解法是：
+	逐层遍历，在遍历第i层时，记录第i+1层的第一个结点和当前的第i+1层最后一个结点，修改第i+1层最后一个结点的next.
+*/
