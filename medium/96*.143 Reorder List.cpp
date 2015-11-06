@@ -55,5 +55,69 @@ class Solution
 
 /*
   空间复杂度O(1)的方法可以是找到后半段链表，翻转后半段链表，合并前半段和后半段链表。
-  这里没有使用，以后再做。
+  如下所示。
 */
+
+
+class Solution 
+{
+    public:
+    void reorderList(ListNode* head) 
+    {
+    	if(head == NULL || head->next == NULL || head->next->next == NULL)
+    		return;
+    	ListNode* slow = head;
+    	ListNode* fast = head;
+    	while(slow != NULL && fast != NULL)
+    	{
+    		slow = slow->next;
+    		fast = fast->next;
+    		if(fast != NULL)
+    			fast = fast->next;
+    	}
+    	
+    	// rotate the second part of list
+    	ListNode* t = slow;
+    	ListNode* h2 = slow;
+    	ListNode* p = slow->next;
+    	while(p != NULL)
+    	{
+    		ListNode* next = p->next;
+    		t->next = p->next;
+            p->next = h2;
+    		h2 = p;
+    		p = next;
+    	}
+    	
+    	ListNode* x1 = head;
+    	ListNode* x2 = h2;
+    	ListNode* h = NULL;
+    	t = NULL;
+    	while(x1 != NULL && x2 != NULL)
+    	{
+    		ListNode* next1 = x1->next;
+    		ListNode* next2 = x2->next;
+    		if(h == NULL)
+    		{
+    			h = x1;
+                h->next = x2;
+                t = x2;			
+    		}
+    		else
+    		{
+    			t->next = x1;
+    			x1->next = x2;
+    			t = x2;
+    		}
+    		x1 = next1;
+    		x2 = next2;
+    	}
+    	
+    	if(x1 != NULL)
+    	{
+    		t->next = x1;
+    		t = x1;
+    	}
+    	t->next = NULL;
+    }
+};
