@@ -45,3 +45,49 @@ class Solution
   所以遍历所有这样的方块，让它作为右端来检查。复杂度为O(n^2).
   O(n)做法用栈，以后再做。
 */
+
+
+/*
+	O(n)方法是记录每个方块的左右两边第一个比它矮的方块。
+	遍历每个方块，如果该方块大于栈顶方块高度，入栈。
+	否则，找到栈顶方块的右边界，栈顶方块的左边界即为栈顶方块的下一个方块。
+*/
+
+
+class Solution 
+{
+	public:
+	int largestRectangleArea(vector<int>& height) 
+	{
+		height.push_back(0);
+		stack<int> s;
+		int max_area = 0;
+		int i = 0;
+		while(i < height.size())
+		{
+			if(s.size() == 0 || height[s.top()] <= height[i])
+			{
+				s.push(i);
+				i++;
+			}
+			else
+			{
+				int j = s.top();
+				s.pop();
+				int this_area;
+				if(s.size() == 0)
+					this_area = height[j]*i;
+				else
+					this_area = height[j]*(i-s.top()-1);
+				max_area = max(max_area, this_area);
+			}
+		}
+		height.pop_back();
+		return max_area;
+	}
+};
+
+
+
+
+
