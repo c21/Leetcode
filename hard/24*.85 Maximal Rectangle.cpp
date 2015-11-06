@@ -75,3 +75,62 @@ class Solution
   依次枚举所有行，得到最大矩形。
   这里求直方图用的是O(n^2)的方法，总时间复杂度为O(n^3). 求直方图有O(n)方法，以后再做。
 */
+
+
+/*
+	以每一行为底边，便可以看作求底边往上的直方图面积，直方图面积求法为O(n)，总时间复杂度为O(n^2).
+*/
+
+class Solution 
+{
+    public:
+    int maximalRectangle(vector<vector<char> >& matrix) 
+    {
+    	if(matrix.size() == 0 || matrix[0].size() == 0)
+    		return 0;
+    	vector<int> height(matrix[0].size(), 0);
+    	int max_area = 0;
+        for(int i = 0; i < matrix.size(); i++)
+    	{
+    		for(int j = 0; j < matrix[i].size(); j++)
+    		{
+    			if(matrix[i][j] == '0')
+    				height[j] = 0;
+    			else
+    				height[j]++;
+    		}
+    		int this_area = get_area(height);
+    		max_area = max(max_area, this_area);
+    	}
+    	return max_area;
+     }
+
+	int get_area(vector<int>& height)
+	{
+		height.push_back(0);
+		stack<int> s;
+		int i = 0;
+		int max_area = 0;
+		while(i < height.size())
+		{
+			if(s.size() == 0 || height[s.top()] <= height[i])
+			{
+				s.push(i);
+				i++;
+			}
+			else
+			{
+				int j = s.top();
+				s.pop();
+				int this_area;
+				if(s.size() == 0)
+					this_area = height[j]*i;
+				else
+					this_area = height[j]*(i-s.top()-1);
+				max_area = max(max_area, this_area);
+			}
+		}
+		height.pop_back();
+		return max_area;
+	}
+};
