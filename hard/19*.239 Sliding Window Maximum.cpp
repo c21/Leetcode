@@ -77,3 +77,31 @@ class Solution
   这里是O(nlogn)的方法，用优先队列来存放元素。
   O(n)的方法没有想出来，是用双端队列存放元素，可以从后往前删除那些比当前元素小的元素。
 */
+
+/*
+	用双端队列维护可能的最大值，队列中元素依次递减。
+	遇到一个新数，从队列尾开始观察是否有数比它小，如果是，就弹出。
+	所有元素入队出队各一次，时间复杂度为O(n).
+*/
+
+class Solution 
+{
+    public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) 
+    {
+    	vector<int> r;
+    	deque<int> queue;
+    	for(int i = 0; i < nums.size(); i++)
+    	{
+    		if(queue.size() > 0 && queue.front() <= i-k)
+    			queue.pop_front();
+    		while(queue.size() > 0 && nums[queue.back()] < nums[i])
+    			queue.pop_back();
+    		queue.push_back(i);
+    		if(i >= k-1)
+    			r.push_back(nums[queue.front()]);
+    	}
+    	return r;
+    }
+};
+
