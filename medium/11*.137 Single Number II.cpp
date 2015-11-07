@@ -35,3 +35,33 @@ class Solution
 /*
   使用hashing空间复杂度为O(n), O(1)空间复杂度需要将每个数的每个数位取模。
 */
+
+/*
+	假设每个整数都为32位，那么除掉加上那个数以外，每位上的和应该为3的倍数。
+	即统计所有数的每个数位上的和，除以3余数，即为该数。
+*/
+
+class Solution 
+{
+    public:	
+    int singleNumber(vector<int>& nums) 
+    {
+    	vector<int> bit(32, 0);
+    	for(int i = 0; i < nums.size(); i++)
+    	{
+    		for(int j = 0; j < 32; j++)
+    		{
+    			bit[j] += ((nums[i] >> j) & 1);
+    		}
+    	}
+    	int n = 0;
+    	for(int i = 31; i >= 0; i--)
+    	{
+    		bit[i] = bit[i] % 3;
+    		n = n*2 + bit[i];
+    	}
+    	return n;
+    }
+};
+
+
