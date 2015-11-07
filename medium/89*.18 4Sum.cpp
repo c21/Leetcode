@@ -123,3 +123,84 @@ int main()
   枚举前3个数，然后对于第4个数进行二分查找。
   有通用的方法解决kSum, 以后再做。
 */
+
+
+/*
+	将数组排序，然后枚举前两个数，对于后两个数用一次扫描(2Sum).
+	或者，可以枚举第一个数，对于后三个数求和(3Sum). 实现相同，时间复杂度为O(n^3).
+*/
+class Solution 
+{
+public:
+vector<vector<int> > fourSum(vector<int>& nums, int target) 
+{
+	vector<vector<int> > r;
+	if(nums.size() < 4)
+		return r;
+	sort(nums.begin(), nums.end());
+
+for(int i = 0; i <= nums.size()-4; i++)
+{
+	if(i != 0 && nums[i] == nums[i-1])
+		continue;
+	for(int j = i+1; j <= nums.size()-3; j++)
+	{
+		if(j != i+1 && nums[j] == nums[j-1])
+			continue;
+		vector<pair<int,int> > this_r;
+		get_sum(nums, j+1, target-nums[i]-nums[j], this_r);
+		for(int k = 0; k < this_r.size(); k++)
+		{
+			vector<int> sum;
+			sum.push_back(nums[i]);
+			sum.push_back(nums[j]);
+			sum.push_back(this_r[k].first);
+			sum.push_back(this_r[k].second);
+			r.push_back(sum);
+		}
+	}
+}	
+return r;
+      }
+	
+	void get_sum(vector<int>& nums, int b, int sum, vector<pair<int,int> >& r)
+	{
+		int begin = b;
+		int end = nums.size()-1;
+		while(begin < end)
+		{
+			int f1 = 0, f2 = 0;
+			if(nums[begin]+nums[end] == sum)
+			{
+				r.push_back(make_pair(nums[begin], nums[end]));
+				f1 = 1;
+				f2 = 1;
+			}
+			else if(nums[begin]+nums[end] < sum)
+			{
+				f1 = 1;
+			}
+			else
+			{
+				f2 = 1;
+			}
+			if(f1)
+			{
+				int j = begin+1;
+				while(j < end && nums[j] == nums[begin])
+					j++;
+				begin = j;
+			}
+			if(f2)
+			{
+				int j = end-1;
+				while(j > begin && nums[j] == nums[end])
+					j--;
+				end = j;
+			}
+		}
+	}
+	
+};
+
+
