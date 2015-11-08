@@ -57,5 +57,49 @@ class Solution
 };
 
 /*
-  这题的数据应该是无重复元素的排列，对于有重复元素的排列以后再做。
+  这题的数据应该是无重复元素的排列，处理有重复元素的排列如下所示。
 */
+
+class Solution 
+{
+    public:
+    vector<vector<int>> permute(vector<int>& nums) 
+    {
+    	vector<vector<int> > r;
+    	if(nums.size() == 0)
+    		return r;
+    	sort(nums.begin(), nums.end());
+    	vector<pair<int,int> > flag;
+    	for(int i = 0; i < nums.size(); i++)
+    	{
+    		int j = i+1;
+    		while(j < nums.size() && nums[j] == nums[i])
+    			j++;
+    		flag.push_back(make_pair(nums[i], j-i));
+    	}
+    	vector<int> record(nums.size(), 0);
+    	get_per(flag, r, 0, nums.size(), record);
+	    return r;
+     }
+
+	void get_per(vector<pair<int,int> >& flag, vector<vector<int> >& r, int k, int n, vector<int>& record)
+	{
+		if(k == n)
+		{
+			r.push_back(record);
+			return;
+		}
+		for(int i = 0; i < flag.size(); i++)
+		{
+			if(flag[i].second > 0)
+			{
+				flag[i].second--;
+				record[k] = flag[i].first;
+				get_per(flag, r, k+1, n, record);
+				flag[i].second++;
+			}
+		}
+	}
+};
+
+
