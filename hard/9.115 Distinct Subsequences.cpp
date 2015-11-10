@@ -40,8 +40,8 @@ class Solution
 	int get_num(int begin_t, int begin_s, vector<vector<int> >& record, vector<vector<int> >& place)
 	{
 	
-    if(begin_t >= record.size() || begin_s >= record[0].size())
-      return 0;
+		if(begin_t >= record.size() || begin_s >= record[0].size())
+		      return 0;
 		if(record[begin_t][begin_s] != -1)
 			return record[begin_t][begin_s];
 
@@ -61,13 +61,13 @@ class Solution
 		{
 			int sum = 0;
 			for(int i = 0; i < place[begin_t].size(); i++)
-      {
-        if(place[begin_t][i] >= begin_s)
-        {
-          sum += get_num(begin_t+1, place[begin_t][i]+1, record, place);
-        }
-      }
-      record[begin_t][begin_s] = sum;
+		        {
+		         	if(place[begin_t][i] >= begin_s)
+		        	{
+		          		sum += get_num(begin_t+1, place[begin_t][i]+1, record, place);
+		        	}
+		      	}
+		      	record[begin_t][begin_s] = sum;
 		}
 		return record[begin_t][begin_s];
 	}	
