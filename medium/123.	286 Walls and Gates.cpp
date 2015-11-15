@@ -1,3 +1,4 @@
+/*
 Walls and Gates
 
 Question
@@ -18,8 +19,9 @@ After running your function, the 2D grid should be:
  2   2   1  -1
  1  -1   2  -1
  0  -1   3   4
+ */
  
- struct node
+struct node
 {
     int x;
     int y;
