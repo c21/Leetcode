@@ -142,5 +142,85 @@ int main()
 }
 
 /*
-  使用trie
+  使用trie, 下面为使用哈希表实现trie.
 */
+class myNode
+{
+    public:
+    unordered_map<char, myNode*> map;
+    int flag;
+    myNode()
+    {
+        flag = 0;
+    }
+};
+
+class WordDictionary 
+{
+    myNode* root = new myNode();
+    public:
+
+    // Adds a word into the data structure.
+    void addWord(string word) 
+    {
+        myNode* p = root;
+        for(int i = 0; i < word.length(); i++)
+        {
+            if(p->map.find(word[i]) == p->map.end())
+            {
+                p->map[word[i]] = new myNode();
+            }
+            p = p->map[word[i]];
+        }
+        p->flag = 1;
+    }
+
+    // Returns if the word is in the data structure. A word could
+    // contain the dot character '.' to represent any one letter.
+    bool search(string word) 
+    {
+        if(word == "")
+            return false;
+        else
+            return find(word, 0, root);
+    }
+    
+    bool find(string word, int k, myNode* p)
+    {
+        if(k == word.length()-1)
+        {
+            if(word[k] == '.')
+            {
+                for(unordered_map<char, myNode*>::iterator it = p->map.begin(); it != p->map.end(); it++)
+                {
+                    if(it->second->flag)
+                        return true;
+                }
+                return false;
+            }
+            else
+            {
+                if(p->map.find(word[k]) != p->map.end())
+                    return p->map[word[k]]->flag == 1;
+                else
+                    return false;
+            }
+        }   
+        if(word[k] == '.')
+        {
+            for(unordered_map<char, myNode*>::iterator it = p->map.begin(); it != p->map.end(); it++)
+            {
+                if(find(word, k+1, it->second))
+                    return true;
+            }
+            return false;
+        }
+        else
+        {
+            if(p->map.find(word[k]) != p->map.end())
+                return find(word, k+1, p->map[word[k]]);
+            else
+                return false;
+        }
+    }
+};
